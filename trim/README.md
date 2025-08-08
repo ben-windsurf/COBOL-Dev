@@ -35,6 +35,22 @@ Example:
 
 ```trim.cbl``` demonstrates a couple of examples of using the ```trim``` function.
 
+## Java Migration
+
+```TrimFunctionTest.java``` provides equivalent functionality in Java:
+
+- `trimBoth()` - equivalent to `FUNCTION TRIM(string)`
+- `trimLeading()` - equivalent to `FUNCTION TRIM(string LEADING)`  
+- `trimTrailing()` - equivalent to `FUNCTION TRIM(string TRAILING)`
+- `toFixedLength()` - simulates COBOL `PICTURE X(30)` fixed-length behavior
+- Identical output format with "--" delimiters
+
+### Running the Java Program
+
+```bash
+javac TrimFunctionTest.java
+java TrimFunctionTest
+```
 
 **Example of program output:**
 
