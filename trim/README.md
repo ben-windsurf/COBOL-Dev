@@ -35,6 +35,23 @@ Example:
 
 ```trim.cbl``` demonstrates a couple of examples of using the ```trim``` function.
 
+## Java Equivalent
+
+```TrimDemo.java``` provides a Java equivalent that demonstrates the same functionality using Java's string trimming methods:
+
+- ```String.trim()``` - removes both leading and trailing spaces (equivalent to default TRIM)
+- ```String.stripLeading()``` - removes only leading spaces (equivalent to TRIM LEADING)
+- ```String.stripTrailing()``` - removes only trailing spaces (equivalent to TRIM TRAILING)
+
+**Compilation and execution:**
+
+```bash
+javac TrimDemo.java
+java TrimDemo
+```
+
+The Java version produces identical output to the COBOL program, maintaining the same 30-character string behavior and visual formatting with "--" delimiters.
+
 
 **Example of program output:**
 
