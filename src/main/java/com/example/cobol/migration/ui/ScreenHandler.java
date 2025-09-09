@@ -5,28 +5,57 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class ScreenHandler {
+/**
+ * Screen Handler for COBOL to Java migration.
+ * Handles console input/output operations converted from COBOL screen handling.
+ */
+public final class ScreenHandler {
+    /** Scanner for user input. */
     private Scanner scanner;
+    /** BufferedReader for line input. */
     private BufferedReader reader;
-    
+
+    /**
+     * Default constructor.
+     */
     public ScreenHandler() {
         this.scanner = new Scanner(System.in);
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
-    
-    public void display(String message) {
+
+    /**
+     * Display message to console.
+     *
+     * @param message message to display
+     */
+    public void display(final String message) {
         System.out.print(message);
     }
-    
-    public void displayLine(String message) {
+
+    /**
+     * Display message with line break.
+     *
+     * @param message message to display
+     */
+    public void displayLine(final String message) {
         System.out.println(message);
     }
-    
-    public void displayWithNoAdvancing(String message) {
+
+    /**
+     * Display message without advancing to next line.
+     *
+     * @param message message to display
+     */
+    public void displayWithNoAdvancing(final String message) {
         System.out.print(message);
         System.out.flush();
     }
-    
+
+    /**
+     * Accept input from user.
+     *
+     * @return user input string
+     */
     public String acceptInput() {
         try {
             return reader.readLine();
@@ -35,13 +64,25 @@ public class ScreenHandler {
             return "";
         }
     }
-    
-    public String acceptInput(String prompt) {
+
+    /**
+     * Accept input from user with prompt.
+     *
+     * @param prompt prompt message to display
+     * @return user input string
+     */
+    public String acceptInput(final String prompt) {
         displayWithNoAdvancing(prompt);
         return acceptInput();
     }
-    
-    public int acceptNumericInput(String prompt) {
+
+    /**
+     * Accept numeric input from user with prompt.
+     *
+     * @param prompt prompt message to display
+     * @return numeric input value
+     */
+    public int acceptNumericInput(final String prompt) {
         while (true) {
             String input = acceptInput(prompt);
             try {
@@ -51,8 +92,14 @@ public class ScreenHandler {
             }
         }
     }
-    
-    public double acceptDecimalInput(String prompt) {
+
+    /**
+     * Accept decimal input from user with prompt.
+     *
+     * @param prompt prompt message to display
+     * @return decimal input value
+     */
+    public double acceptDecimalInput(final String prompt) {
         while (true) {
             String input = acceptInput(prompt);
             try {
@@ -62,7 +109,10 @@ public class ScreenHandler {
             }
         }
     }
-    
+
+    /**
+     * Clear the console screen.
+     */
     public void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -72,57 +122,85 @@ public class ScreenHandler {
                 System.out.flush();
             }
         } catch (Exception e) {
-            for (int i = 0; i < 50; i++) {
+            final int fallbackLines = 50;
+            for (int i = 0; i < fallbackLines; i++) {
                 System.out.println();
             }
         }
     }
-    
+
+    /**
+     * Display a blank line.
+     */
     public void displaySpace() {
         System.out.println();
     }
-    
-    public void displaySeparator(String character, int length) {
+
+    /**
+     * Display a separator line with specified character and length.
+     *
+     * @param character character to repeat
+     * @param length number of characters to display
+     */
+    public void displaySeparator(final String character, final int length) {
         for (int i = 0; i < length; i++) {
             System.out.print(character);
         }
         System.out.println();
     }
-    
-    public void displayHeader(String title) {
-        displaySeparator("=", 50);
+
+    /**
+     * Display a header with title surrounded by separators.
+     *
+     * @param title header title to display
+     */
+    public void displayHeader(final String title) {
+        final int headerWidth = 50;
+        displaySeparator("=", headerWidth);
         displayLine(title);
-        displaySeparator("=", 50);
+        displaySeparator("=", headerWidth);
     }
-    
-    public void displaySubHeader(String title) {
-        displaySeparator("-", 30);
+
+    /**
+     * Display a sub-header with title surrounded by separators.
+     *
+     * @param title sub-header title to display
+     */
+    public void displaySubHeader(final String title) {
+        final int subHeaderWidth = 30;
+        displaySeparator("-", subHeaderWidth);
         displayLine(title);
-        displaySeparator("-", 30);
+        displaySeparator("-", subHeaderWidth);
     }
-    
+
+    /**
+     * Get current screen size.
+     *
+     * @return screen size object with rows and columns
+     */
     public ScreenSize getScreenSize() {
         try {
             String os = System.getProperty("os.name").toLowerCase();
             ProcessBuilder pb;
-            
+
             if (os.contains("windows")) {
                 pb = new ProcessBuilder("cmd", "/c", "mode con");
             } else {
                 pb = new ProcessBuilder("stty", "size");
             }
-            
+
             Process process = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = reader.readLine();
-            
+
             if (line != null && !line.trim().isEmpty()) {
                 if (os.contains("windows")) {
                     String[] parts = line.split("\\s+");
                     for (String part : parts) {
                         if (part.contains("Columns:")) {
                             int cols = Integer.parseInt(part.split(":")[1].trim());
-                            return new ScreenSize(24, cols);
+                            final int defaultRows = 24;
+                            return new ScreenSize(defaultRows, cols);
                         }
                     }
                 } else {
@@ -137,10 +215,15 @@ public class ScreenHandler {
         } catch (Exception e) {
             System.err.println("Could not determine screen size: " + e.getMessage());
         }
-        
-        return new ScreenSize(24, 80);
+
+        final int defaultRows = 24;
+        final int defaultCols = 80;
+        return new ScreenSize(defaultRows, defaultCols);
     }
-    
+
+    /**
+     * Close scanner and reader resources.
+     */
     public void close() {
         if (scanner != null) {
             scanner.close();
@@ -153,24 +236,50 @@ public class ScreenHandler {
             System.err.println("Error closing reader: " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Screen size data class.
+     */
     public static class ScreenSize {
+        /** Number of rows. */
         private final int rows;
+        /** Number of columns. */
         private final int columns;
-        
-        public ScreenSize(int rows, int columns) {
+
+        /**
+         * Constructor for screen size.
+         *
+         * @param rows number of rows
+         * @param columns number of columns
+         */
+        public ScreenSize(final int rows, final int columns) {
             this.rows = rows;
             this.columns = columns;
         }
-        
+
+        /**
+         * Get number of rows.
+         *
+         * @return number of rows
+         */
         public int getRows() {
             return rows;
         }
-        
+
+        /**
+         * Get number of columns.
+         *
+         * @return number of columns
+         */
         public int getColumns() {
             return columns;
         }
-        
+
+        /**
+         * String representation of screen size.
+         *
+         * @return string representation
+         */
         @Override
         public String toString() {
             return "ScreenSize{rows=" + rows + ", columns=" + columns + "}";

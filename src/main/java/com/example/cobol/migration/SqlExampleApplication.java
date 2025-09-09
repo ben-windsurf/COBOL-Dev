@@ -47,7 +47,7 @@ public final class SqlExampleApplication {
         System.out.println();
 
         try {
-            DatabaseConnectionManager connectionManager = 
+            DatabaseConnectionManager connectionManager =
                     DatabaseConnectionManager.getInstance();
             if (connectionManager.isConnected()) {
                 this.isConnected = true;
@@ -145,7 +145,7 @@ public final class SqlExampleApplication {
 
             try {
                 List<Account> accounts = accountDao.searchAccounts(searchTerm);
-                displayAccountResults(accounts, 
+                displayAccountResults(accounts,
                         "Search Results for: " + searchTerm);
 
                 System.out.print("Search again? (Y/N): ");
@@ -165,7 +165,7 @@ public final class SqlExampleApplication {
      * @param accounts list of accounts to display
      * @param title title for the results section
      */
-    private void displayAccountResults(final List<Account> accounts, 
+    private void displayAccountResults(final List<Account> accounts,
             final String title) {
         System.out.println();
         final int lineWidth = 80;
@@ -178,6 +178,10 @@ public final class SqlExampleApplication {
             return;
         }
 
+        final int firstNameWidth = 10;
+        final int lastNameWidth = 10;
+        final int addressWidth = 25;
+        
         System.out.printf("%-5s %-10s %-10s %-12s %-25s %-8s%n",
                 "ID", "First", "Last", "Phone", "Address", "Enabled");
         System.out.println("-".repeat(lineWidth));
@@ -185,10 +189,10 @@ public final class SqlExampleApplication {
         for (Account account : accounts) {
             System.out.printf("%-5d %-10s %-10s %-12s %-25s %-8s%n",
                     account.getId(),
-                    truncate(account.getFirstName(), 10),
-                    truncate(account.getLastName(), 10),
+                    truncate(account.getFirstName(), firstNameWidth),
+                    truncate(account.getLastName(), lastNameWidth),
                     account.getPhone(),
-                    truncate(account.getAddress(), 25),
+                    truncate(account.getAddress(), addressWidth),
                     account.isEnabled() ? "Y" : "N");
         }
 
@@ -208,7 +212,7 @@ public final class SqlExampleApplication {
             return "";
         }
         final int ellipsisLength = 3;
-        return str.length() > maxLength 
+        return str.length() > maxLength
                 ? str.substring(0, maxLength - ellipsisLength) + "..." : str;
     }
 
@@ -218,7 +222,7 @@ public final class SqlExampleApplication {
      * @param message descriptive error message
      * @param e the SQL exception to handle
      */
-    private void handleSqlException(final String message, 
+    private void handleSqlException(final String message,
             final SQLException e) {
         System.err.println(message + ": " + e.getMessage());
         System.err.println("SQL State: " + e.getSQLState());
