@@ -71,13 +71,18 @@ Converting COBOL program structure to Java class architecture, implementing prop
 - `execute(String param1, String param2, boolean byReference)` signature
 - Caller updates its variables based on return values when `byReference=true`
 
-### 🔄 Task 14: Update Build Configuration (1 SP) - IN PROGRESS
+### ✅ Task 14: Update Build Configuration (1 SP) - COMPLETED
 **Objective**: Replace COBOL compilation with Java build
 - ✅ Maven build configuration already exists from Phase 1
 - ✅ Dependency management configured (HikariCP, PostgreSQL, H2, JUnit)
 - ✅ Compilation and packaging working
-- 🔄 Need to add program execution configuration
-- **Deliverable**: Working Java build system
+- ✅ Added exec-maven-plugin for program execution configuration
+- ✅ **Deliverable**: Working Java build system
+
+**Implementation Details**:
+- Added exec-maven-plugin version 3.1.0 to pom.xml
+- Configured execution profiles for SqlExampleApplication and MainApp
+- Can run programs with: `mvn exec:java@run-main-app` or `mvn exec:java@run-sql-example`
 
 ## Testing Status
 - ✅ All 15 tests passing (7 AccountDao + 6 SubApp + 2 MainApp)
