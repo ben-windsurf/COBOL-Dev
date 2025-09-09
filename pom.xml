@@ -103,6 +103,36 @@
                 <version>3.2.2</version>
             </plugin>
             
+            <!-- Execution plugin for running programs -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.example.cobol.migration.SqlExampleApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run-sql-example</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.cobol.migration.SqlExampleApplication</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-main-app</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.cobol.migration.programs.MainApp</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <!-- Create executable JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
