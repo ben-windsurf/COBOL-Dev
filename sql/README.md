@@ -1,7 +1,6 @@
 ## SQL Example Program
 
-This example program demonstrates how to use the esqlOC precompiler to create a GnuCOBOL application that 
-can connect and query a PostgreSQL database. 
+This example program demonstrates database connectivity using both the original COBOL esqlOC precompiler approach and the new Java JDBC replacement that can connect and query a PostgreSQL database.
 
 
 
@@ -15,20 +14,27 @@ can connect and query a PostgreSQL database.
 
 **Prerequisites:**
 * PostgreSQL database instance
-* esqlOC Precompiler:  https://sourceforge.net/p/gnucobol/contrib/HEAD/tree/trunk/esql/
-* unixODBC - http://www.unixodbc.org/
+* Java 11 or higher
+* Apache Maven 3.6 or higher
 * PostgreSQL Database - https://www.postgresql.org/
-* odbc-postgresql - Postgres ODBC driver
 
 
 
 
 
 **How to build**
-* Run the ```create_test_db.sql``` on your testing PostgreSQL instance. 
-* Precompile the ```sql_example.cbl``` source file using: ```esqlOC -static -o generated_sql_ex.cbl sql_example.cbl```
-* Compile the generated source file with the GnuCOBOL compiler: ```cobc -x -static -locsql generated_sql_ex.cbl```
-* This will create the test program executable ```generated_sql_ex``` 
+* Run the ```create_test_db.sql``` on your testing PostgreSQL instance.
+* Navigate to the java directory: ```cd ../java```
+* Compile the Java JDBC replacement: ```mvn compile```
+* Run tests: ```mvn test```
+* Run the example program: ```mvn exec:java -Dexec.mainClass="com.cobol.migration.example.DatabaseExample"```
+
+**Java JDBC Implementation**
+The esqlOC precompiler has been replaced with a Java JDBC implementation that provides the same database functionality:
+* ```DatabaseConfig.java``` - Database connection configuration
+* ```DatabaseConnectionManager.java``` - Connection management with proper resource cleanup
+* ```AccountDAO.java``` - Data access operations equivalent to the original COBOL cursors
+* ```DatabaseExample.java``` - Example program demonstrating the three main database operations
 
 
 

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.cobol.migration.exception.DatabaseExceptionTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in com.cobol.migration.exception.DatabaseExceptionTest
