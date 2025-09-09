@@ -95,7 +95,8 @@ public class AccountDao {
      * @return list of matching accounts
      * @throws SQLException if database operation fails
      */
-    public List<Account> searchAccounts(final String searchTerm) throws SQLException {
+    public List<Account> searchAccounts(final String searchTerm)
+            throws SQLException {
         String trimmedSearchTerm = searchTerm != null ? searchTerm.trim() : "";
         String likePattern = "%" + trimmedSearchTerm + "%";
 
@@ -139,7 +140,8 @@ public class AccountDao {
      * @return mapped Account object
      * @throws SQLException if mapping fails
      */
-    private Account mapResultSetToAccount(final ResultSet rs) throws SQLException {
+    private Account mapResultSetToAccount(final ResultSet rs)
+            throws SQLException {
         Account account = new Account();
         account.setId(rs.getInt("id"));
         account.setFirstName(rs.getString("first_name"));
