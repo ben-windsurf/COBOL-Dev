@@ -11,17 +11,29 @@ import java.util.List;
  * Converted from COBOL redefines.cbl program showing how memory overlays
  * are handled using inheritance and union-like patterns in Java.
  */
-public class RedefinesExample {
+public final class RedefinesExample {
+    /** Number of records to process. */
     private int numRecords;
+    /** List of customer records. */
     private List<Customer> customers;
+    /** List of data type examples. */
     private List<DataTypeExample> dataTypes;
 
+    /**
+     * Default constructor.
+     */
     public RedefinesExample() {
-        this.numRecords = 3;
+        final int defaultRecordCount = 3;
+        this.numRecords = defaultRecordCount;
         this.customers = new ArrayList<>();
         this.dataTypes = new ArrayList<>();
     }
 
+    /**
+     * Main method to start the redefines example.
+     *
+     * @param args command line arguments
+     */
     public static void main(final String[] args) {
         RedefinesExample example = new RedefinesExample();
         example.run();
@@ -37,22 +49,34 @@ public class RedefinesExample {
         displaySecondTestData();
     }
 
+    /**
+     * Set up test customer data for demonstration.
+     */
     private void setupTestData() {
         System.out.println();
         System.out.println("1. Person record with first/last name entered.");
 
-        PersonCustomer person1 = new PersonCustomer("test-first", "test-last", "123 fake st", "NV", 12345);
+        final int zipCode1 = 12345;
+        PersonCustomer person1 = new PersonCustomer("test-first", "test-last",
+                "123 fake st", "NV", zipCode1);
         customers.add(person1);
 
         System.out.println("2. Corp record with corp name entered.");
-        CorporateCustomer corp = new CorporateCustomer("no-name corp", "567 real st", "NY", 11795);
+        final int zipCode2 = 11795;
+        CorporateCustomer corp = new CorporateCustomer("no-name corp",
+                "567 real st", "NY", zipCode2);
         customers.add(corp);
 
         System.out.println("3. Person record with corp name entered.");
-        PersonCustomer person2 = new PersonCustomer("SET", "CORP VALUE", "890 what st", "MA", 9345);
+        final int zipCode3 = 9345;
+        PersonCustomer person2 = new PersonCustomer("SET", "CORP VALUE",
+                "890 what st", "MA", zipCode3);
         customers.add(person2);
     }
 
+    /**
+     * Display customer data for verification.
+     */
     private void displayCustomerData() {
         System.out.println();
         System.out.println("Displaying fake customer data:");
@@ -75,29 +99,47 @@ public class RedefinesExample {
 
             System.out.println("Address: ");
             System.out.println(customer.getStreetAddress());
-            System.out.println(customer.getState() + ", " + customer.getZipCode());
+            System.out.println(customer.getState() + ", "
+                    + customer.getZipCode());
             System.out.println("------------------------------");
             System.out.println();
         }
     }
 
+    /**
+     * Set up second test data for data type demonstration.
+     */
     private void setupSecondTestData() {
-        dataTypes.add(new DataTypeExample(DataTypeExample.DataType.DISPLAY, "ABC123"));
-        dataTypes.add(new DataTypeExample(DataTypeExample.DataType.COMP, 12345.63));
+        dataTypes.add(new DataTypeExample(DataTypeExample.DataType.DISPLAY,
+                "ABC123"));
+        final double testCompValue = 12345.63;
+        dataTypes.add(new DataTypeExample(DataTypeExample.DataType.COMP,
+                testCompValue));
     }
 
+    /**
+     * Display second test data results.
+     */
     private void displaySecondTestData() {
         System.out.println();
         System.out.println("Redefines with different variable types:");
         System.out.println("----------------------------------------");
         System.out.println("Value entered in ws-data-disp-value: ABC123");
-        System.out.println("ws-data-disp-value x(10): " + dataTypes.get(0).getDisplayValue());
-        System.out.println("ws-data-comp-value comp-2: " + dataTypes.get(0).getComputationalValue());
+        final int firstRecord = 0;
+        System.out.println("ws-data-disp-value x(10): "
+                + dataTypes.get(firstRecord).getDisplayValue());
+        System.out.println("ws-data-comp-value comp-2: "
+                + dataTypes.get(firstRecord).getComputationalValue());
         System.out.println();
         System.out.println("----------------------------------------");
-        System.out.println("Value entered in ws-data-comp-value: 12345.63");
-        System.out.println("ws-data-disp-value x(10): " + dataTypes.get(1).getDisplayValue());
-        System.out.println("ws-data-comp-value comp-2: " + dataTypes.get(1).getComputationalValue());
+        final double testCompValue = 12345.63;
+        System.out.println("Value entered in ws-data-comp-value: "
+                + testCompValue);
+        final int secondRecord = 1;
+        System.out.println("ws-data-disp-value x(10): "
+                + dataTypes.get(secondRecord).getDisplayValue());
+        System.out.println("ws-data-comp-value comp-2: "
+                + dataTypes.get(secondRecord).getComputationalValue());
         System.out.println();
     }
 
@@ -106,20 +148,35 @@ public class RedefinesExample {
      * Shows how COBOL DISPLAY and COMP data types are handled in Java.
      */
     public static class DataTypeExample {
+        /** Data type identifier. */
         private DataType dataType;
+        /** Display value representation. */
         private String displayValue;
+        /** Computational value representation. */
         private double computationalValue;
 
-        public DataTypeExample(final DataType dataType, final String displayValue) {
-            this.dataType = dataType;
-            this.displayValue = displayValue;
+        /**
+         * Constructor for display type data.
+         *
+         * @param dtype data type
+         * @param dispValue display value
+         */
+        public DataTypeExample(final DataType dtype, final String dispValue) {
+            this.dataType = dtype;
+            this.displayValue = dispValue;
             this.computationalValue = 0.0;
         }
 
-        public DataTypeExample(final DataType dataType, final double computationalValue) {
-            this.dataType = dataType;
-            this.computationalValue = computationalValue;
-            this.displayValue = String.valueOf(computationalValue);
+        /**
+         * Constructor for computational type data.
+         *
+         * @param dtype data type
+         * @param compValue computational value
+         */
+        public DataTypeExample(final DataType dtype, final double compValue) {
+            this.dataType = dtype;
+            this.computationalValue = compValue;
+            this.displayValue = String.valueOf(compValue);
         }
 
         /**
@@ -155,21 +212,29 @@ public class RedefinesExample {
             }
             return computationalValue;
         }
-        
+
         /**
          * Enum representing COBOL data types.
          * DISPLAY corresponds to character data, COMP to computational data.
          */
         public enum DataType {
+            /** Display data type. */
             DISPLAY('D'),
+            /** Computational data type. */
             COMP('C');
-            
+
+            /** Character value of the data type. */
             private final char value;
-            
-            DataType(final char value) {
-                this.value = value;
+
+            /**
+             * Constructor for data type enum.
+             *
+             * @param val character value
+             */
+            DataType(final char val) {
+                this.value = val;
             }
-            
+
             /**
              * Get the character value of this data type.
              *

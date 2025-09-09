@@ -181,7 +181,7 @@ public final class SqlExampleApplication {
         final int firstNameWidth = 10;
         final int lastNameWidth = 10;
         final int addressWidth = 25;
-        
+
         System.out.printf("%-5s %-10s %-10s %-12s %-25s %-8s%n",
                 "ID", "First", "Last", "Phone", "Address", "Enabled");
         System.out.println("-".repeat(lineWidth));

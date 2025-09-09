@@ -116,7 +116,8 @@ public final class ScreenHandler {
     public void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "cls")
+                        .inheritIO().start().waitFor();
             } else {
                 System.out.print("\033[2J\033[H");
                 System.out.flush();
@@ -190,15 +191,17 @@ public final class ScreenHandler {
             }
 
             Process process = pb.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = reader.readLine();
+            BufferedReader inputReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+            String line = inputReader.readLine();
 
             if (line != null && !line.trim().isEmpty()) {
                 if (os.contains("windows")) {
                     String[] parts = line.split("\\s+");
                     for (String part : parts) {
                         if (part.contains("Columns:")) {
-                            int cols = Integer.parseInt(part.split(":")[1].trim());
+                            int cols = Integer.parseInt(
+                                    part.split(":")[1].trim());
                             final int defaultRows = 24;
                             return new ScreenSize(defaultRows, cols);
                         }
@@ -213,7 +216,8 @@ public final class ScreenHandler {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Could not determine screen size: " + e.getMessage());
+            System.err.println("Could not determine screen size: "
+                    + e.getMessage());
         }
 
         final int defaultRows = 24;
@@ -249,12 +253,12 @@ public final class ScreenHandler {
         /**
          * Constructor for screen size.
          *
-         * @param rows number of rows
-         * @param columns number of columns
+         * @param screenRows number of rows
+         * @param screenColumns number of columns
          */
-        public ScreenSize(final int rows, final int columns) {
-            this.rows = rows;
-            this.columns = columns;
+        public ScreenSize(final int screenRows, final int screenColumns) {
+            this.rows = screenRows;
+            this.columns = screenColumns;
         }
 
         /**

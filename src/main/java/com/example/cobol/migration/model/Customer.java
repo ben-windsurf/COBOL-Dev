@@ -31,7 +31,8 @@ public abstract class Customer {
     public Customer(final String customerStreetAddress,
                     final String customerState,
                     final int customerZipCode) {
-        this.streetAddress = customerStreetAddress != null ? customerStreetAddress : "";
+        this.streetAddress = customerStreetAddress != null
+                ? customerStreetAddress : "";
         this.state = customerState != null ? customerState : "";
         this.zipCode = customerZipCode;
     }

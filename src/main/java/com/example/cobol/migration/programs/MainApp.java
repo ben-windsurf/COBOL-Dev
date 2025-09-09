@@ -7,10 +7,16 @@ import java.util.Scanner;
  * Converted from COBOL main_app.cbl program.
  * Shows parameter passing and program communication patterns.
  */
-public class MainApp {
+public final class MainApp {
+    /** Maximum field length. */
+    private static final int MAX_FIELD_LENGTH = 10;
+    /** Working storage item 1. */
     private String wsItem1;
+    /** Working storage item 2. */
     private String wsItem2;
+    /** Scanner for user input. */
     private final Scanner scanner;
+    /** Sub application instance. */
     private SubApp subApp;
 
     /**
@@ -40,14 +46,14 @@ public class MainApp {
         System.out.println();
         System.out.print("Enter value for #1: ");
         this.wsItem1 = scanner.nextLine().trim();
-        if (this.wsItem1.length() > 10) {
-            this.wsItem1 = this.wsItem1.substring(0, 10);
+        if (this.wsItem1.length() > MAX_FIELD_LENGTH) {
+            this.wsItem1 = this.wsItem1.substring(0, MAX_FIELD_LENGTH);
         }
 
         System.out.print("Enter value for #2: ");
         this.wsItem2 = scanner.nextLine().trim();
-        if (this.wsItem2.length() > 10) {
-            this.wsItem2 = this.wsItem2.substring(0, 10);
+        if (this.wsItem2.length() > MAX_FIELD_LENGTH) {
+            this.wsItem2 = this.wsItem2.substring(0, MAX_FIELD_LENGTH);
         }
 
         displayMessage();
@@ -58,9 +64,11 @@ public class MainApp {
         subApp.execute(item1Copy, item2Copy, false);
         displayMessage();
 
-        System.out.println("Second call of sub program should retain WS values.");
+        System.out.println("Second call of sub program should retain WS "
+                + "values.");
         System.out.println("Calling sub program by reference:");
-        String[] result = subApp.execute(this.wsItem1, this.wsItem2, true);
+        String[] result = subApp.execute(this.wsItem1, this.wsItem2,
+                true);
         this.wsItem1 = result[0];
         this.wsItem2 = result[1];
         displayMessage();
@@ -82,7 +90,8 @@ public class MainApp {
     private void displayMessage() {
         System.out.println();
         System.out.println("-----------------------------------------------");
-        System.out.println("Main app: " + padRight(wsItem1, 10) + padRight(wsItem2, 10));
+        System.out.println("Main app: " + padRight(wsItem1, MAX_FIELD_LENGTH)
+                + padRight(wsItem2, MAX_FIELD_LENGTH));
     }
 
     /**
@@ -93,8 +102,12 @@ public class MainApp {
      * @return padded string
      */
     private String padRight(final String str, final int length) {
-        if (str == null) return "";
-        if (str.length() >= length) return str;
+        if (str == null) {
+            return "";
+        }
+        if (str.length() >= length) {
+            return str;
+        }
         return str + " ".repeat(length - str.length());
     }
 }

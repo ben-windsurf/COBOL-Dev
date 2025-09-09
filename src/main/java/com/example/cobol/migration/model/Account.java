@@ -31,7 +31,30 @@ public final class Account {
     }
 
     /**
-     * Constructor with all fields.
+     * Constructor with basic account information.
+     *
+     * @param accountId the account ID
+     * @param accountFirstName the customer first name
+     * @param accountLastName the customer last name
+     * @param accountPhone the customer phone number
+     * @param accountAddress the customer address
+     * @param accountEnabled the account enabled status
+     */
+    public Account(final int accountId, final String accountFirstName,
+                   final String accountLastName, final String accountPhone,
+                   final String accountAddress, final boolean accountEnabled) {
+        this.id = accountId;
+        this.firstName = accountFirstName;
+        this.lastName = accountLastName;
+        this.phone = accountPhone;
+        this.address = accountAddress;
+        this.enabled = accountEnabled;
+        this.createDate = LocalDateTime.now();
+        this.modDate = LocalDateTime.now();
+    }
+
+    /**
+     * Constructor with all fields including dates.
      *
      * @param accountId the account ID
      * @param accountFirstName the customer first name
@@ -40,13 +63,11 @@ public final class Account {
      * @param accountAddress the customer address
      * @param accountEnabled the account enabled status
      * @param accountCreateDate the account creation date
-     * @param accountModDate the account modification date
      */
     public Account(final int accountId, final String accountFirstName,
                    final String accountLastName, final String accountPhone,
                    final String accountAddress, final boolean accountEnabled,
-                   final LocalDateTime accountCreateDate,
-                   final LocalDateTime accountModDate) {
+                   final LocalDateTime accountCreateDate) {
         this.id = accountId;
         this.firstName = accountFirstName;
         this.lastName = accountLastName;
@@ -54,7 +75,7 @@ public final class Account {
         this.address = accountAddress;
         this.enabled = accountEnabled;
         this.createDate = accountCreateDate;
-        this.modDate = accountModDate;
+        this.modDate = LocalDateTime.now();
     }
 
     /**
