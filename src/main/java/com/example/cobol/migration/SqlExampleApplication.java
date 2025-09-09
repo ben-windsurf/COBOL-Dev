@@ -6,22 +6,40 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class SqlExampleApplication {
+/**
+ * SQL Example Application demonstrating COBOL to Java migration.
+ * Converted from COBOL sql_example.cbl program.
+ */
+public final class SqlExampleApplication {
+    /** Data access object for account operations. */
     private final AccountDao accountDao;
+    /** Scanner for user input. */
     private final Scanner scanner;
+    /** Database connection status. */
     private boolean isConnected;
     
+    /**
+     * Default constructor.
+     */
     public SqlExampleApplication() {
         this.accountDao = new AccountDao();
         this.scanner = new Scanner(System.in);
         this.isConnected = false;
     }
     
-    public static void main(String[] args) {
+    /**
+     * Main method to start the application.
+     *
+     * @param args command line arguments
+     */
+    public static void main(final String[] args) {
         SqlExampleApplication app = new SqlExampleApplication();
         app.run();
     }
     
+    /**
+     * Main application loop.
+     */
     public void run() {
         System.out.println();
         System.out.println("COBOL SQL DB Example Program");
@@ -81,6 +99,9 @@ public class SqlExampleApplication {
         scanner.close();
     }
     
+    /**
+     * Display all accounts from the database.
+     */
     private void displayAllAccounts() {
         try {
             List<Account> accounts = accountDao.getAllAccounts();
@@ -90,6 +111,9 @@ public class SqlExampleApplication {
         }
     }
     
+    /**
+     * Display only disabled accounts from the database.
+     */
     private void displayDisabledAccounts() {
         try {
             List<Account> accounts = accountDao.getDisabledAccounts();
@@ -99,6 +123,10 @@ public class SqlExampleApplication {
         }
     }
     
+    /**
+     * Interactive account search functionality.
+     * Allows user to search accounts by various criteria.
+     */
     private void queryAccounts() {
         boolean searchAgain = true;
         
@@ -126,7 +154,13 @@ public class SqlExampleApplication {
         }
     }
     
-    private void displayAccountResults(List<Account> accounts, String title) {
+    /**
+     * Display account results in formatted table.
+     *
+     * @param accounts list of accounts to display
+     * @param title title for the results section
+     */
+    private void displayAccountResults(final List<Account> accounts, final String title) {
         System.out.println();
         System.out.println("=".repeat(80));
         System.out.println(title);
@@ -155,12 +189,25 @@ public class SqlExampleApplication {
         System.out.println("Total records: " + accounts.size());
     }
     
-    private String truncate(String str, int maxLength) {
+    /**
+     * Truncate string to specified length with ellipsis.
+     *
+     * @param str string to truncate
+     * @param maxLength maximum length allowed
+     * @return truncated string with ellipsis if needed
+     */
+    private String truncate(final String str, final int maxLength) {
         if (str == null) return "";
         return str.length() > maxLength ? str.substring(0, maxLength - 3) + "..." : str;
     }
     
-    private void handleSqlException(String message, SQLException e) {
+    /**
+     * Handle SQL exceptions with detailed error reporting.
+     *
+     * @param message descriptive error message
+     * @param e the SQL exception to handle
+     */
+    private void handleSqlException(final String message, final SQLException e) {
         System.err.println(message + ": " + e.getMessage());
         System.err.println("SQL State: " + e.getSQLState());
         System.err.println("Error Code: " + e.getErrorCode());
