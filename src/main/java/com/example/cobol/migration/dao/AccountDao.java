@@ -14,13 +14,17 @@ public class AccountDao {
         this.connectionManager = DatabaseConnectionManager.getInstance();
     }
     
+    protected Connection getConnection() throws SQLException {
+        return connectionManager.getConnection();
+    }
+    
     public List<Account> getAllAccounts() throws SQLException {
         String sql = "SELECT id, first_name, last_name, phone, address, is_enabled, create_dt, mod_dt " +
                     "FROM accounts ORDER BY id";
         
         List<Account> accounts = new ArrayList<>();
         
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -39,7 +43,7 @@ public class AccountDao {
         
         List<Account> accounts = new ArrayList<>();
         
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -63,7 +67,7 @@ public class AccountDao {
         
         List<Account> accounts = new ArrayList<>();
         
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, likePattern);
